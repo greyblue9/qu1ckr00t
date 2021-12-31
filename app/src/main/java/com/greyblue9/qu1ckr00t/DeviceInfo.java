@@ -1,4 +1,4 @@
-package de.hernan.qu1ckr00t;
+package com.greyblue9.qu1ckr00t;
 
 import android.os.Build;
 import android.text.TextUtils;

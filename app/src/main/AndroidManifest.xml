@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.hernan.qu1ckr00t">
+    package="com.greyblue9.qu1ckr00t">
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="de.hernan.qu1ckr00t.MainActivity">
+        <activity android:name="com.greyblue9.qu1ckr00t.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

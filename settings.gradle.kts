@@ -14,8 +14,6 @@ include(
 )
 
 val serviceRoot = "service"
-project(":interface").projectDir = file("$serviceRoot${File.separator}interface")
-project(":service").projectDir = file("$serviceRoot${File.separator}service")
 
 buildCache { local { removeUnusedEntriesAfterDays = 1 } }
 

@@ -6,14 +6,14 @@ import android.os.Binder;
 import android.util.Log;
 
 import com.greyblue9.qu1ckr00t.shared.Constants;
-import com.greyblue9.qu1ckr00t.shared.IClipboardWhitelist;
+import com.greyblue9.qu1ckr00t.shared.IQu1ckr00t;
 
 import $android.app.ActivityManager;
 import $android.os.UserManager;
 
 import static com.greyblue9.qu1ckr00t.shared.Constants.TAG;
 
-public class WhitelistService extends IClipboardWhitelist.Stub {
+public class WhitelistService extends IQu1ckr00t.Stub {
     @Override
     public int version() {
         return Constants.SERVICE_VERSION;

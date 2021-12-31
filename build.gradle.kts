@@ -6,7 +6,7 @@ allprojects {
         mavenCentral()
     }
     extra {
-        val buildMinVersion: Int by extra(29)
+        val buildMinVersion: Int by extra(24)
         val buildTargetVersion: Int by extra(30)
 
         val buildVersionCode: Int by extra(10)

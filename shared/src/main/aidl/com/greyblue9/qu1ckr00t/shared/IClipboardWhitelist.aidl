@@ -1,4 +1,4 @@
-package com.github.kr328.clipboard.shared;
+package com.greyblue9.qu1ckr00t.shared;
 
 interface IClipboardWhitelist {
     int version();

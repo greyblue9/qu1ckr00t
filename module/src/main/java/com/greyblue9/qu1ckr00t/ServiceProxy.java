@@ -1,4 +1,4 @@
-package com.github.kr328.clipboard;
+package com.greyblue9.qu1ckr00t;
 
 import android.annotation.SuppressLint;
 import android.os.IBinder;

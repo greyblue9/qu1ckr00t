@@ -1,4 +1,4 @@
-package com.github.kr328.clipboard;
+package com.greyblue9.qu1ckr00t;
 
 import android.content.Context;
 import android.content.IClipboard;
@@ -6,7 +6,7 @@ import android.os.IBinder;
 import android.os.Process;
 import android.util.Log;
 
-import static com.github.kr328.clipboard.shared.Constants.TAG;
+import static com.greyblue9.qu1ckr00t.shared.Constants.TAG;
 
 @SuppressWarnings({"unused", "RedundantSuppression"})
 public class Injector extends ServiceProxy {

@@ -1,17 +1,17 @@
-package com.github.kr328.clipboard;
+package com.greyblue9.qu1ckr00t;
 
 import android.app.ActivityThread;
 import android.content.Context;
 import android.os.Binder;
 import android.util.Log;
 
-import com.github.kr328.clipboard.shared.Constants;
-import com.github.kr328.clipboard.shared.IClipboardWhitelist;
+import com.greyblue9.qu1ckr00t.shared.Constants;
+import com.greyblue9.qu1ckr00t.shared.IClipboardWhitelist;
 
 import $android.app.ActivityManager;
 import $android.os.UserManager;
 
-import static com.github.kr328.clipboard.shared.Constants.TAG;
+import static com.greyblue9.qu1ckr00t.shared.Constants.TAG;
 
 public class WhitelistService extends IClipboardWhitelist.Stub {
     @Override

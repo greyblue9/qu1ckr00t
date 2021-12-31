@@ -1,4 +1,4 @@
-package com.github.kr328.clipboard;
+package com.greyblue9.qu1ckr00t;
 
 import android.os.Binder;
 import android.os.IBinder;
@@ -7,7 +7,7 @@ import android.os.Parcel;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.github.kr328.clipboard.shared.Constants;
+import com.greyblue9.qu1ckr00t.shared.Constants;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

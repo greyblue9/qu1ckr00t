@@ -22,7 +22,7 @@
 #define RIRU_TARGET_API 25
 
 #define INJECT_DEX_PATH "/runtime/runtime.dex"
-#define INJECT_CLASS_NAME "com.github.kr328.clipboard.Injector"
+#define INJECT_CLASS_NAME "com.greyblue9.qu1ckr00t.Injector"
 #define INJECT_METHOD_NAME "inject"
 #define INJECT_METHOD_SIGNATURE "(Ljava/lang/String;)V"
 

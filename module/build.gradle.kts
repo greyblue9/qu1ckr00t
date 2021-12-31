@@ -27,7 +27,7 @@ android {
     ndkVersion = buildNdkVersion
 
     defaultConfig {
-        applicationId = "com.github.kr328.clipboard.module"
+        applicationId = "com.greyblue9.qu1ckr00t.module"
 
         minSdk = buildMinVersion
         targetSdk = buildTargetVersion

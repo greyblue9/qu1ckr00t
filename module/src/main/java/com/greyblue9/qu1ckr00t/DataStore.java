@@ -1,4 +1,4 @@
-package com.github.kr328.clipboard;
+package com.greyblue9.qu1ckr00t;
 
 import android.util.Log;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.github.kr328.clipboard.shared.Constants.TAG;
+import static com.greyblue9.qu1ckr00t.shared.Constants.TAG;
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.nio.file.StandardOpenOption.WRITE;

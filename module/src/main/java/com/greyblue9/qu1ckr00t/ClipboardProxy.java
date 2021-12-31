@@ -1,4 +1,4 @@
-package com.github.kr328.clipboard;
+package com.greyblue9.qu1ckr00t;
 
 import android.app.ActivityThread;
 import android.content.ClipData;
@@ -15,8 +15,8 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.github.kr328.clipboard.ProxyFactory.TransactHook;
-import com.github.kr328.clipboard.shared.Constants;
+import com.greyblue9.qu1ckr00t.ProxyFactory.TransactHook;
+import com.greyblue9.qu1ckr00t.shared.Constants;
 
 import $android.content.pm.PackageManager;
 

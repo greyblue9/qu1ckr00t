@@ -22,7 +22,7 @@
 
 -dontobfuscate
 
--keep class com.github.kr328.clipboard.Injector {
+-keep class com.greyblue9.qu1ckr00t.Injector {
     public void inject(java.lang.String);
     native *** *(...);
 }

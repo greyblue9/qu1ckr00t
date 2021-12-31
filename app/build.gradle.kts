@@ -14,7 +14,7 @@ android {
     compileSdkVersion(buildTargetVersion)
 
     defaultConfig {
-        applicationId = "com.github.kr328.clipboard"
+        applicationId = "com.greyblue9.qu1ckr00t"
 
         minSdk = buildMinVersion
         targetSdk = buildTargetVersion

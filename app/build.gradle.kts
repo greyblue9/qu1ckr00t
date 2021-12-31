@@ -14,7 +14,7 @@ android {
     compileSdkVersion(buildTargetVersion)
 
     defaultConfig {
-        applicationId = "de.hernan.qu1ckr00t"
+        applicationId = "com.github.kr328.clipboard"
 
         minSdk = buildMinVersion
         targetSdk = buildTargetVersion
@@ -54,16 +54,14 @@ android {
 }
 
 dependencies {
+    compileOnly(project(":hideapi"))
+
     implementation(project(":shared"))
 
     // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-reflect
     runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:1.5.31")
-    implementation("com.android.tools.build:gradle:4.2.1")
-    implementation("org.javassist:javassist:3.27.0-GA")
-    // implementation("dev.rikka.ndk:riru:25.0.1")
 }
 
 repositories {
-    google()
     mavenCentral()
 }

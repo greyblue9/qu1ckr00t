@@ -1,6 +1,6 @@
 package com.greyblue9.qu1ckr00t.shared;
 
-interface IClipboardWhitelist {
+interface IQu1ckroot {
     int version();
 
     String[] queryPackages();

@@ -13,7 +13,7 @@ else
 fi
 
 # This function will be used when util_functions.sh not exists
-check_riru_version() {
+check_version() {
   if [ ! -f "$MAGISK_CURRENT_RIRU_MODULE_PATH/api_version" ] && [ ! -f "/data/adb/riru/api_version" ] && [ ! -f "/data/adb/riru/api_version.new" ]; then
     ui_print "*********************************************************"
     ui_print "! Riru $RIRU_MODULE_MIN_RIRU_VERSION_NAME or above is required"

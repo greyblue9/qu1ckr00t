@@ -60,7 +60,7 @@
 
     </ScrollView>
 
-    <Button style="@style/Widget.AppCompat.Button.Colored"
+    <Button
         android:text="Root"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -110,7 +110,7 @@ public class MainActivity extends Activity {
                   new File(pocPath).exists()));
                 
                 
-                boolean rs = executNativeCode(args0);
+                boolean rs = executeNativeCode(args0);
                 publishProgress(String.format(
                   "rs = %s", rs));
                 
@@ -122,7 +122,7 @@ public class MainActivity extends Activity {
                 ));
                 
                 
-                boolean rs = executeNativeCode(args);
+                rs = executeNativeCode(args);
                 publishProgress(String.format(
                   "rs = %s", rs));
                 

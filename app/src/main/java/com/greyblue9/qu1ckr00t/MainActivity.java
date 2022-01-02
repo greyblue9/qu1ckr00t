@@ -23,6 +23,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.*;
+import java.util.*;
 
 public class MainActivity extends Activity {
 
@@ -148,10 +150,10 @@ public class MainActivity extends Activity {
         {
             publishProgress("Extracting Magisk...");
 
-            InputStream magisk = getResources().openRawResource(R.raw.magiskinit64);
+            InputStream magisk = getResources().openRawResource(R.raw.magiskinit);
             File fileDir = getApplicationContext().getFilesDir();
             // XXX: hardcoded to 64 bit
-            File magiskFile = new File(fileDir, "magiskinit64");
+            File magiskFile = new File(fileDir, "magiskinit");
             magiskPath = magiskFile.getPath();
             copyFile(magisk, magiskPath);
             magiskFile.setExecutable(true);
@@ -165,21 +167,34 @@ public class MainActivity extends Activity {
             magiskInstFile.setExecutable(true);
         }
 
+
+
+         void inheritIO(final InputStream src) {
+             new Thread(new Runnable() {
+               public void run() {
+                 java.util.Scanner sc = new java.util.Scanner(src);
+                 while (sc.hasNextLine()) { 
+                  publishProgress(String.format(
+                    "[NATIVE] %s", sc.nextLine()
+                  ));
+                 }
+               }
+             }).start();
+         }
+
         private boolean executeNativeCode(String [] args) throws IOException, InterruptedException {
             publishProgress("Executing native root binary...");
             Process nativeApp = Runtime.getRuntime().exec(args);
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(nativeApp.getInputStream()));
-
-            String str;
-            while((str=reader.readLine())!=null) {
-                publishProgress("[NATIVE] " + str);
-            }
-
-            reader.close();
-
+            publishProgress(String.format(
+              "[NATIVE]: %s", nativeApp));
+            inheritIO(nativeApp.getInputStream());
+            inheritIO(nativeApp.getErrorStream());
+ 
             // Waits for the command to finish.
+            publishProgress("[NATIVE]: waiting for process");
             nativeApp.waitFor();
+            publishProgress("[NATIVE EXIT CODE]: %d",
+              nativeApp.exitValue());
             return nativeApp.exitValue() == 0;
         }
 

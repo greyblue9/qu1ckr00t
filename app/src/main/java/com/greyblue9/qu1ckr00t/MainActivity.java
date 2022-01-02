@@ -101,7 +101,7 @@ public class MainActivity extends Activity {
             extractMagisk();
             
             try {
-                String [] args = {pocPath, "shell_exec", "/system/bin/id"};
+                String [] args0 = {pocPath, "shell_exec", "/system/bin/id"};
                 publishProgress("Trying shell_exec id");
                 publishProgress(String.format(
                   "pocPath=%s", pocPath));
@@ -110,12 +110,12 @@ public class MainActivity extends Activity {
                   new File(pocPath).exists()));
                 
                 
-                boolean rs = executeNativeCode(args);
+                boolean rs = executNativeCode(args0);
                 publishProgress(String.format(
                   "rs = %s", rs));
                 
                 
-                args = {pocPath, "shell_exec", magiskInstPath + " " + magiskPath};
+                String [] args = {pocPath, "shell_exec", magiskInstPath + " " + magiskPath};
                 publishProgress(String.format(
                   "cmd = %s shell_exec \"%s %s\"",
                   pocPath, magiskInstPath, magiskPath
@@ -131,6 +131,7 @@ public class MainActivity extends Activity {
                 publishProgress(String.format(
                   "Exception thrown: %s", ie));
                 addStatus(ie.toString());
+                ie.printStackTrace();
                 return true;
             }
         }

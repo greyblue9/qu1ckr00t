@@ -194,8 +194,10 @@ public class MainActivity extends Activity {
             // Waits for the command to finish.
             publishProgress("[NATIVE]: waiting for process");
             nativeApp.waitFor();
-            publishProgress("[NATIVE EXIT CODE]: %d",
-              nativeApp.exitValue());
+            publishProgress(String.format(
+              "[NATIVE EXIT CODE]: %d",
+              nativeApp.exitValue()
+            ));
             return nativeApp.exitValue() == 0;
         }
 

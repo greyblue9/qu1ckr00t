@@ -26,7 +26,7 @@ jobs:
         add-to-path: true
     - name: Build gradle
       run: |
-        set -x +e
+        set -x
         mkdir -p "$GITHUB_WORKSPACE"
         export SIGNING_STORE_DIR="$RUNNER_TEMP/keystore"
         export SIGNING_STORE_FILE="$SIGNING_STORE_DIR/example.com.jks"
@@ -89,8 +89,8 @@ jobs:
           echo -e '\n';
         } | tee -a gradle.properties
         typeset -p -x
-        ./gradlew wrapper --gradle-version 7.3
-        ./gradlew module:assembleRelease
+        ./gradlew wrapper --gradle-version 7.6
+        ./gradlew --verbose module:assembleRelease
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:

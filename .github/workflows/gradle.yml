@@ -18,11 +18,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Set up NDK r23
+    - name: Set up NDK r21
       uses: nttld/setup-ndk@v1
       id: setup-ndk
       with:
-        ndk-version: r23
+        ndk-version: r21
         add-to-path: true
     - name: Build gradle
       run: |
@@ -39,7 +39,7 @@ jobs:
         export KEYSTORE="$SIGNING_STORE_FILE"
         export NDK_DIR="$ANDROID_NDK_HOME"
         export NDK_ROOT="$ANDROID_NDK_HOME"
-        export NDK_VER="23.0.7123448"
+        export NDK_VER="21.4.7075529"
         CRLF=$'\r\n'
         
         keytool -genkeypair -v \
@@ -89,8 +89,8 @@ jobs:
           echo -e '\n';
         } | tee -a gradle.properties
         typeset -p -x
-        ./gradlew wrapper --gradle-version 7.6
-        ./gradlew --verbose module:assembleRelease
+        ./gradlew wrapper --gradle-version 7.3
+        ./gradlew --debug --trace module:assembleRelease
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:

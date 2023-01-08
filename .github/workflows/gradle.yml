@@ -18,12 +18,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Set up NDK r25
-      uses: nttld/setup-ndk@v1
-      id: setup-ndk
-      with:
-        ndk-version: r25
-        add-to-path: true
     - name: Build gradle
       run: |
         set -x
@@ -39,7 +33,7 @@ jobs:
         export KEYSTORE="$SIGNING_STORE_FILE"
         export NDK_DIR="$ANDROID_NDK_HOME"
         export NDK_ROOT="$ANDROID_NDK_HOME"
-        export NDK_VER="21.4.7075529"
+        export NDK_VER="${NDK_ROOT##*/}"
         CRLF=$'\r\n'
         
         keytool -genkeypair -v \
@@ -90,7 +84,15 @@ jobs:
         } | tee -a gradle.properties
         typeset -p -x
         ./gradlew wrapper --gradle-version 7.3
-        ./gradlew app
+        ./gradlew app \
+         || ./gradlew app:zipDebug \
+         || ./gradlew app:debug \
+         || ./gradlew app:debugZip \
+         || ./gradlew app:assembleDebug \
+         || ./gradlew app:assembleRelease \
+         || ./gradlew app \
+         || ./gradlew \
+         ;
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:

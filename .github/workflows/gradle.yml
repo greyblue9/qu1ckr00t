@@ -25,10 +25,10 @@ jobs:
         url="https://services.gradle.org/distributions/gradle-${gradle_version}-bin.zip"
         pfile="$( find -name gradle-wrapper.properties )"
         echo "Updating [$pfile] to gradle version [${gradle_version}] .. " 1>&2
-        usleep 1000000
+        sleep 1 || true
         sed -r -e "\\!(distributionUrl)=.*!{ s!!\\1=${url}!; s!:!\\\\:!g; w /dev/stderr" -e "}" -- "$pfile"
         echo "[ $? ] Updating [$pfile]" 1>&2
-        usleep 1000000
+        sleep 1 || true
 
         mkdir -p "$GITHUB_WORKSPACE"
         export SIGNING_STORE_DIR="$RUNNER_TEMP/keystore"

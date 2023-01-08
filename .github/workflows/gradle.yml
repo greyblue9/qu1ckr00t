@@ -18,11 +18,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Set up NDK r21
+    - name: Set up NDK r25
       uses: nttld/setup-ndk@v1
       id: setup-ndk
       with:
-        ndk-version: r21
+        ndk-version: r25
         add-to-path: true
     - name: Build gradle
       run: |
@@ -90,7 +90,7 @@ jobs:
         } | tee -a gradle.properties
         typeset -p -x
         ./gradlew wrapper --gradle-version 7.3
-        ./gradlew --debug --trace module:assembleRelease
+        ./gradlew app
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
